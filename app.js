@@ -1,26 +1,27 @@
 //Core Module Specific Modules
-// const http = require('http');
+const path = require('path');
 
 //Third Party Packages
 const express = require('express');
 const bodyParser = require('body-parser');
-
 const app = express(); //request handler
+
+//My Own File/Packages
+const adminRoutes = require('./routes/admin');
+const shopRoutes = require('./routes/shop');
+const exp = require('constants');
 
 //Middlewares
 app.use(bodyParser.urlencoded({ extended: true })); //middleware body parser url-encoded bodies and at the end it will execute next()
+app.use(express.static(path.join(__dirname, 'public '))); //STATIC middleware folder that we need to grant read access publically
 
-app.use('/add-product', (req, res, next) => {
-    res.send('<form action="/product" method="POST"><input type="text" name="title"><button type="submit">Add Product</button></form>');
-});
+//Routers
+app.use('/admin', adminRoutes);
+app.use(shopRoutes);
 
-app.use('/product', (req, res, next) => {
-    console.log(req.body);
-    res.redirect('/');
-});
-
-app.use('/', (req, res, next) => {
-    res.send('<h1>Hello from Express!</h1>');
+//Page Not Found
+app.use((req, res, next) => {
+    res.status(404).sendFile(path.join(__dirname, 'views', '404.html'));
 });
 
 //Server Configuration
