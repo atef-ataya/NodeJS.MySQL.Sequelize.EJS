@@ -4,10 +4,13 @@ const path = require('path');
 //Third Party Packages
 const express = require('express');
 const bodyParser = require('body-parser');
+const expressHbs = require('express-handlebars');
 
 const app = express(); //request handler
 
-app.set('view engine', 'pug'); //Global Configuration Value, a value that can't understand
+app.engine('hbs', expressHbs({ layoutDir: 'views/layouts/', defaultLayout: 'main-layout', extname: 'hbs' })); //HandleBars is not built in engine
+//app.set('view engine', 'pug'); //Global Configuration Value, a value that can't understand, pug built-in template
+app.set('view engine', 'hbs'); //Global Configuration Value, a value that can't understand, pug built-in template
 app.set('views', 'views');
 
 //My Own File/Packages
