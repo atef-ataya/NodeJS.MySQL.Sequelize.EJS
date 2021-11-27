@@ -4,8 +4,10 @@ const path = require('path');
 const express = require('express');
 //My Own Imports
 const rootDir = require('../util/path');
+//This router is like mini express app
+const router = express.Router()
 
-const router = express.Router() //This router is like mini express app
+const products = [];
 
 // /admin/add-product => GET
 router.get('/add-product', (req, res, next) => {
@@ -14,8 +16,9 @@ router.get('/add-product', (req, res, next) => {
 
 // /admin/add-product => POST
 router.post('/add-product', (req, res, next) => {
-    console.log(req.body);
+    products.push({ title: req.body.title })
     res.redirect('/');
 });
 
-module.exports = router;
+exports.routes = router;
+exports.products = products;

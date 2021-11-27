@@ -4,19 +4,21 @@ const path = require('path');
 //Third Party Packages
 const express = require('express');
 const bodyParser = require('body-parser');
+
 const app = express(); //request handler
 
+app.set()
+
 //My Own File/Packages
-const adminRoutes = require('./routes/admin');
+const adminData = require('./routes/admin');
 const shopRoutes = require('./routes/shop');
-const exp = require('constants');
 
 //Middlewares
-app.use(bodyParser.urlencoded({ extended: true })); //middleware body parser url-encoded bodies and at the end it will execute next()
-app.use(express.static(path.join(__dirname, 'public '))); //STATIC middleware folder that we need to grant read access publically
+app.use(bodyParser.urlencoded({ extended: false })); //middleware body parser url-encoded bodies and at the end it will execute next()
+app.use(express.static(path.join(__dirname, 'public'))); //STATIC middleware folder that we need to grant read access publically
 
 //Routers
-app.use('/admin', adminRoutes);
+app.use('/admin', adminData.routes);
 app.use(shopRoutes);
 
 //Page Not Found
