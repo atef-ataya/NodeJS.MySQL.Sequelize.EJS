@@ -1,24 +1,14 @@
-//Nodejs Core Module
-const path = require('path');
 //Third Party Modules
 const express = require('express');
-//My Own Imports
-const rootDir = require('../util/path');
-//This router is like mini express app
-const router = express.Router()
+//My Own Modules
+const productsController = require('../controllers/products');
 
-const products = [];
+const router = express.Router();
 
 // /admin/add-product => GET
-router.get('/add-product', (req, res, next) => {
-    res.render('add-product', { pageTitle: 'Add Product', path: '/admin/add-product', formCSS: true, productCSS: true, activeAddProduct: true }); // view name + object that hold the values
-});
+router.get('/add-product', productsController.getAddProduct);
 
 // /admin/add-product => POST
-router.post('/add-product', (req, res, next) => {
-    products.push({ title: req.body.title })
-    res.redirect('/');
-});
+router.post('/add-product', productsController.postAddProduct);
 
-exports.routes = router;
-exports.products = products;
+module.exports = router;

@@ -5,13 +5,16 @@ const path = require('path');
 const express = require('express');
 const bodyParser = require('body-parser');
 
+//Imports my Own Module
+const errorControllers = require('./controllers/error');
+
 const app = express(); //request handler
 
 app.set('view engine', 'ejs'); //Global Configuration Value, a value that can't understand, pug built-in template
 app.set('views', 'views');
 
 //My Own File/Packages
-const adminData = require('./routes/admin');
+const adminRoutes = require('./routes/admin');
 const shopRoutes = require('./routes/shop');
 
 //Middlewares
@@ -19,14 +22,11 @@ app.use(bodyParser.urlencoded({ extended: false })); //middleware body parser ur
 app.use(express.static(path.join(__dirname, 'public'))); //STATIC middleware folder that we need to grant read access publically
 
 //Routers
-app.use('/admin', adminData.routes);
+app.use('/admin', adminRoutes);
 app.use(shopRoutes);
 
 //Page Not Found
-app.use((req, res, next) => {
-    // res.status(404).sendFile(path.join(__dirname, 'views', '404.html'));
-    res.status(404).render('404', { pageTitle: 'Page Not Found!' });
-});
+app.use(errorControllers.get404);
 
 //Server Configuration
 app.listen(3000);
